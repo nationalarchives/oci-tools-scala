@@ -33,8 +33,6 @@ import scala.collection.immutable.Seq;
  */
 object BaseCoder {
 
-  type Alphabet = Array[Char]
-
   /**
    * Encode a Base10 integer value into BaseN.
    *
@@ -43,7 +41,10 @@ object BaseCoder {
    *
    * @return A sequence of offsets into the baseN alphabet
    *         for the encoded integer
+   *
+   * @throws IllegalArgumentException if {@code value} is less than zero.
    */
+  @throws[IllegalArgumentException]
   def encode(value: Int, baseN: Int): Seq[Int] = {
 
     @tailrec
@@ -59,15 +60,42 @@ object BaseCoder {
       }
     }
 
+    if (value < 0) {
+      throw new IllegalArgumentException("Negative values cannot be encoded")
+    }
+
     encode(value, List.empty[Int])
   }
 
-  def decode(str: String, baseN: Int, symbolToAlphabetIdx: Char => Int): Int = {
-    val alphabetIndicies = str.map(symbolToAlphabetIdx)
-    val vs = for(i <- 0 until alphabetIndicies.length) yield {
-      val exp = (alphabetIndicies.length - i) - 1
-      alphabetIndicies(i) * Math.pow(baseN, exp).toInt
+  /**
+   * Decode a BaseN string into a Base10 integer.
+   *
+   * @param str the BaseN encoded string
+   * @param baseN the base into which to encode the integer
+   * @param characterToNumericValue a function that converts an encoded BaseN char to a numeric value
+   *                                the function should return -1 if there is no possible conversion
+   *
+   * @throws IllegalArgumentException if {@code value} is less than zero.
+   */
+  @throws[IllegalArgumentException]
+  def decode(str: String, baseN: Int, characterToNumericValue: Char => Int): Int = {
+    val numericValues = str.map { character =>
+      val numericValue = characterToNumericValue(character)
+      if (numericValue < 0) {
+        throw new IllegalArgumentException(s"Character '$character' cannot be resolved to a numeric value")
+      }
+      numericValue
     }
+
+    val vs = for(i <- 0 until numericValues.length) yield {
+      val exp = (numericValues.length - i) - 1
+      numericValues(i) * Math.pow(baseN, exp).toInt
+    }
+
+    if (str.isEmpty) {
+      throw new IllegalArgumentException("Cannot decode empty-string")
+    }
+
     vs.reduceLeft(_ + _)
   }
 }

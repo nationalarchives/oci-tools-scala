@@ -7,6 +7,14 @@
 **Note**: There is also an alternative implementation in TypeScript available at:
 https://github.com/nationalarchives/oci-tools-ts.git
 
+This project is split into two parts:
+1. a library ([`BaseCoder.scala`](https://github.com/nationalarchives/oci-tools-scala/blob/master/src/main/scala/uk/gov/nationalarchives/oci/BaseCoder.scala))
+which can be used in other projects.
+
+2. a command line tool ([`Main.scala`](https://github.com/nationalarchives/oci-tools-scala/blob/master/src/main/scala/uk/gov/nationalarchives/oci/Main.scala))
+which is useful in itself and also serves as an example of using the `BaseCoder.scala` library.
+
+
 ## Examples of Command Line tool use
 Encoding to Base16 (e.g. hexadecimal):
 ```bash
