@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
  
 **Note**: There is also an alternative implementation in TypeScript available at:
-https://github.com/nationalarchives/oci-tools-ts.git
+https://github.com/nationalarchives/oci-tools-ts
 
 This project is split into two parts:
 1. a library ([`BaseCoder.scala`](https://github.com/nationalarchives/oci-tools-scala/blob/master/src/main/scala/uk/gov/nationalarchives/oci/BaseCoder.scala))
