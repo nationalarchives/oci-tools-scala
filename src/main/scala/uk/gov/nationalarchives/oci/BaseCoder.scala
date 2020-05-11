@@ -79,6 +79,10 @@ object BaseCoder {
    */
   @throws[IllegalArgumentException]
   def decode(str: String, baseN: Int, characterToNumericValue: Char => Int): Int = {
+    if (str.isEmpty) {
+      throw new IllegalArgumentException("Cannot decode empty-string")
+    }
+
     val numericValues = str.map { character =>
       val numericValue = characterToNumericValue(character)
       if (numericValue < 0) {
@@ -90,10 +94,6 @@ object BaseCoder {
     val vs = for(i <- 0 until numericValues.length) yield {
       val exp = (numericValues.length - i) - 1
       numericValues(i) * Math.pow(baseN, exp).toInt
-    }
-
-    if (str.isEmpty) {
-      throw new IllegalArgumentException("Cannot decode empty-string")
     }
 
     vs.reduceLeft(_ + _)
