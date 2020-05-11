@@ -39,7 +39,7 @@ class OCIb25CoderSuite extends FunSuite {
     }
   }
 
-  test("encode OCIb25 short") {
+  test("encode OCIb25 small") {
     assertEquals(encodeToOCIb25Str(0), "1")
     assertEquals(encodeToOCIb25Str(1), "2")
     assertEquals(encodeToOCIb25Str(2), "3")
@@ -70,7 +70,7 @@ class OCIb25CoderSuite extends FunSuite {
     assertEquals(encodeToOCIb25Str(27), "23")
   }
 
-  test("encode OCIb25 long") {
+  test("encode OCIb25 large") {
     assertEquals(encodeToOCIb25Str(123), "5X")
     assertEquals(encodeToOCIb25Str(255), "F6")
     assertEquals(encodeToOCIb25Str(1234), "2YC")
@@ -104,7 +104,7 @@ class OCIb25CoderSuite extends FunSuite {
     }
   }
 
-  test("decode OCIb25 short") {
+  test("decode OCIb25 small") {
     assertEquals(decodeFromOCIb25Str("1"), 0)
     assertEquals(decodeFromOCIb25Str("2"), 1)
     assertEquals(decodeFromOCIb25Str("3"), 2)
@@ -135,7 +135,7 @@ class OCIb25CoderSuite extends FunSuite {
     assertEquals(decodeFromOCIb25Str("23"), 27)
   }
 
-  test("decode OCIb25 long") {
+  test("decode OCIb25 large") {
     assertEquals(decodeFromOCIb25Str("5X"), 123)
     assertEquals(decodeFromOCIb25Str("F6"), 255)
     assertEquals(decodeFromOCIb25Str("2YC"), 1234)

@@ -39,7 +39,7 @@ class HexCoderSuite extends FunSuite {
     }
   }
 
-  test("encode hex short") {
+  test("encode hex small") {
     assertEquals(encodeToHexStr(0), "0")
     assertEquals(encodeToHexStr(1), "1")
     assertEquals(encodeToHexStr(2), "2")
@@ -70,7 +70,7 @@ class HexCoderSuite extends FunSuite {
     assertEquals(encodeToHexStr(27), "1B")
   }
 
-  test("encode hex long") {
+  test("encode hex large") {
     assertEquals(encodeToHexStr(123), "7B")
     assertEquals(encodeToHexStr(255), "FF")
     assertEquals(encodeToHexStr(1234), "4D2")
@@ -101,7 +101,7 @@ class HexCoderSuite extends FunSuite {
     }
   }
 
-  test("decode hex short") {
+  test("decode hex small") {
     assertEquals(decodeFromHexStr("0"), 0)
     assertEquals(decodeFromHexStr("1"), 1)
     assertEquals(decodeFromHexStr("2"), 2)
@@ -132,7 +132,7 @@ class HexCoderSuite extends FunSuite {
     assertEquals(decodeFromHexStr("1B"), 27)
   }
 
-  test("decode hex long") {
+  test("decode hex large") {
     assertEquals(decodeFromHexStr("7B"), 123)
     assertEquals(decodeFromHexStr("FF"), 255)
     assertEquals(decodeFromHexStr("4D2"), 1234)

@@ -39,7 +39,7 @@ class GCRb25CoderSuite extends FunSuite {
     }
   }
 
-  test("encode GCRb25 short") {
+  test("encode GCRb25 small") {
     assertEquals(encodeToGCRb25Str(0), "B")
     assertEquals(encodeToGCRb25Str(1), "C")
     assertEquals(encodeToGCRb25Str(2), "D")
@@ -74,7 +74,7 @@ class GCRb25CoderSuite extends FunSuite {
     assertEquals(encodeToGCRb25Str(31), "CJ")
   }
 
-  test("encode GCRb25 long") {
+  test("encode GCRb25 large") {
     assertEquals(encodeToGCRb25Str(123), "G6")
     assertEquals(encodeToGCRb25Str(255), "NH")
     assertEquals(encodeToGCRb25Str(1234), "C7M")
@@ -105,7 +105,7 @@ class GCRb25CoderSuite extends FunSuite {
     }
   }
 
-  test("decode GCRb25 short") {
+  test("decode GCRb25 small") {
     assertEquals(decodeFromGCRb25Str("B"), 0)
     assertEquals(decodeFromGCRb25Str("C"), 1)
     assertEquals(decodeFromGCRb25Str("D"), 2)
@@ -140,7 +140,7 @@ class GCRb25CoderSuite extends FunSuite {
     assertEquals(decodeFromGCRb25Str("CJ"), 31)
   }
 
-  test("decode GCRb25 long") {
+  test("decode GCRb25 large") {
     assertEquals(decodeFromGCRb25Str("G6"), 123)
     assertEquals(decodeFromGCRb25Str("NH"), 255)
     assertEquals(decodeFromGCRb25Str("C7M"), 1234)
