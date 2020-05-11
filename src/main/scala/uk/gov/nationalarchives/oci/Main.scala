@@ -23,7 +23,7 @@ package uk.gov.nationalarchives.oci
 
 import java.nio.file.{Files, Paths}
 
-import scopt.OptionParser
+import scopt.{DefaultOParserSetup, OParser, OParserSetup}
 import uk.gov.nationalarchives.oci.Alphabet._
 import uk.gov.nationalarchives.oci.IncludedAlphabet.IncludedAlphabet
 
@@ -43,53 +43,67 @@ object Main extends App {
 
   case class Config(command: String, roundTrip: Boolean, base: Int, input: Either[String, Int], alphabet: Option[Either[String, IncludedAlphabet]])
 
-  val parser: OptionParser[Config] = new scopt.OptionParser[Config]("oci-tools") {
-    head("oci-tools", "0.0.1")
+  val parserBuilder = OParser.builder[Config]
+  val parser = {
+    import parserBuilder._
+    OParser.sequence(
+      programName("oci-tools"),
+      head("oci-tools", "0.0.1"),
+      help('h', "help"),
 
-    cmd("encode")
-      .text("Encode a number from Base10 into BaseN")
-      .action((_, c) => c.copy(command = "encode"))
-      .children(
-        opt[Unit]('r', "round-trip")
-            .text("Shows the round-trip of the number e.g. encode then decode")
+      cmd("encode")
+        .text("Encode a number from Base10 into BaseN")
+        .action((_, c) => c.copy(command = "encode"))
+        .children(
+          opt[Unit]('r', "round-trip")
+              .text("Shows the round-trip of the number e.g. encode then decode")
+              .action((_, c) => c.copy(roundTrip = true)),
+          arg[Int]("<base>")
+            .text("The baseN to encode the number in")
+            .action((value, c) => c.copy(base = value)),
+          arg[Int]("<number>")
+            .text("The number to encode")
+            .action((value, c) => c.copy(input = Right(value))),
+          arg[String](name = "<alphabet>")
+            .optional()
+            .text("Can be omitted for debugging; will print alphabet offsets instead of characters from the alphabet. " +
+              "Either the name of a built-in alphabet i.e. (OCIb25, GCRb25, HEX) or a file with one character per-line " +
+              "for the alphabet. Alphabet must have the same number of characters as the <base>.")
+            .action(alphabetArgAction)
+            .validate(alphabetArgValidator)
+        ),
+
+      cmd("decode")
+        .text("Decode a number from BaseN into Base10")
+        .action((_, c) => c.copy(command = "decode"))
+        .children(
+          opt[Unit]('r', "round-trip")
+            .text("Shows the round-trip of the number e.g. decode then encode")
             .action((_, c) => c.copy(roundTrip = true)),
-        arg[Int]("<base>")
-          .text("The baseN to encode the number in")
-          .action((value, c) => c.copy(base = value)),
-        arg[Int]("<number>")
-          .text("The number to encode")
-          .action((value, c) => c.copy(input = Right(value))),
-        arg[String](name = "<alphabet>")
-          .optional()
-          .text("Can be omitted for debugging; will print alphabet offsets instead of characters from the alphabet. " +
-            "Either the name of a built-in alphabet i.e. (OCIb25, GCRb25, HEX) or a file with one character per-line " +
-            "for the alphabet. Alphabet must have the same number of characters as the <base>.")
-          .action(alphabetArgAction)
-          .validate(alphabetArgValidator)
-      )
+          arg[Int]("<base>")
+            .text("The baseN to decode the number from")
+            .action((value, c) => c.copy(base = value)),
+          arg[String]("<encoded>")
+            .text("The encoded string to decode")
+            .action((value, c) => c.copy(input = Left(value))),
+          arg[String](name = "<alphabet>")
+            .text("Either the name of a built-in alphabet i.e. (OCIb25, GCRb25, HEX) or a file with one character per-line " +
+              "for the alphabet. Alphabet must have the same number of characters as the <base>.")
+            .action(alphabetArgAction)
+            .validate(alphabetArgValidator)
+        ),
 
-    cmd("decode")
-      .text("Decode a number from BaseN into Base10")
-      .action((_, c) => c.copy(command = "decode"))
-      .children(
-        opt[Unit]('r', "round-trip")
-          .text("Shows the round-trip of the number e.g. decode then encode")
-          .action((_, c) => c.copy(roundTrip = true)),
-        arg[Int]("<base>")
-          .text("The baseN to decode the number from")
-          .action((value, c) => c.copy(base = value)),
-        arg[String]("<encoded>")
-          .text("The encoded string to decode")
-          .action((value, c) => c.copy(input = Left(value))),
-        arg[String](name = "<alphabet>")
-          .text("Either the name of a built-in alphabet i.e. (OCIb25, GCRb25, HEX) or a file with one character per-line " +
-            "for the alphabet. Alphabet must have the same number of characters as the <base>.")
-          .action(alphabetArgAction)
-          .validate(alphabetArgValidator)
-      )
+        checkConfig { c =>
+          if (Option(c.command).filterNot(_.isEmpty).nonEmpty) success else failure("A command is required.")
+        }
+    )
   }
 
-  parser.parse(args, Config("", false, 10, Right(0), None)) match {
+  val parserSetup: OParserSetup = new DefaultOParserSetup {
+    override def showUsageOnError = Some(true)
+  }
+
+  OParser.parse(parser, args, Config("", false, 10, Right(0), None), parserSetup) match {
     case Some(config) =>
 
       config.alphabet.map(loadAlphabet) match {
@@ -105,10 +119,9 @@ object Main extends App {
         case ma @ _ =>
           val maybeAlphabet = ma.flatMap(_.toOption)
 
-          println(s"Input: ${config.input.fold(identity, _.toString)}")
-
           config.command match {
             case "encode" =>
+              println(s"Input: ${config.input.fold(identity, _.toString)}")
               val encoded = BaseCoder.encode(config.input.right.get, config.base)
               maybeAlphabet match {
                 case Some(alphabet: Alphabet) =>
@@ -129,6 +142,7 @@ object Main extends App {
               }
 
             case "decode" =>
+              println(s"Input: ${config.input.fold(identity, _.toString)}")
               val alphabet = maybeAlphabet.get
               val decoded = BaseCoder.decode(config.input.left.get, config.base, Alphabet.valueOf(alphabet, _))
               println(s"Decoded: '${decoded}'")
@@ -140,7 +154,7 @@ object Main extends App {
               }
 
             case _ =>
-              System.err.println("Error, no Command specified")
+              System.err.println(s"Error, no Command specified'")
               System.exit(2)
           }
 
