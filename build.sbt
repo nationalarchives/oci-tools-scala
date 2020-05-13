@@ -13,6 +13,7 @@ headerLicense := Some(HeaderLicense.MIT("2020", "The National Archives"))
 libraryDependencies += "com.github.scopt" %% "scopt" % "4.0.0-RC2"
 libraryDependencies += "com.michaelpollmeier" %% "scala-arm" % "2.1"
 libraryDependencies += "org.scalameta" %% "munit" % "0.4.3" % "test"
+libraryDependencies += "commons-codec" % "commons-codec" % "1.14" % "test"
 testFrameworks += new TestFramework("munit.Framework")
 
 // Fancy up the Assembly JAR

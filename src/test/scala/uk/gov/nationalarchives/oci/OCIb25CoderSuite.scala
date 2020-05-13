@@ -22,8 +22,10 @@
 package uk.gov.nationalarchives.oci
 
 import java.io.IOException
+import java.nio.file.{Files, Paths}
 
 import munit.FunSuite
+import org.apache.commons.codec.digest.DigestUtils
 
 /**
  * @author <a href="mailto:adam@evolvedbinary.com">Adam Retter</a>
@@ -105,54 +107,90 @@ class OCIb25CoderSuite extends FunSuite {
   }
 
   test("decode OCIb25 small") {
-    assertEquals(decodeFromOCIb25Str("1"), 0)
-    assertEquals(decodeFromOCIb25Str("2"), 1)
-    assertEquals(decodeFromOCIb25Str("3"), 2)
-    assertEquals(decodeFromOCIb25Str("4"), 3)
-    assertEquals(decodeFromOCIb25Str("5"), 4)
-    assertEquals(decodeFromOCIb25Str("6"), 5)
-    assertEquals(decodeFromOCIb25Str("7"), 6)
-    assertEquals(decodeFromOCIb25Str("8"), 7)
-    assertEquals(decodeFromOCIb25Str("9"), 8)
-    assertEquals(decodeFromOCIb25Str("C"), 9)
-    assertEquals(decodeFromOCIb25Str("F"), 10)
-    assertEquals(decodeFromOCIb25Str("G"), 11)
-    assertEquals(decodeFromOCIb25Str("H"), 12)
-    assertEquals(decodeFromOCIb25Str("J"), 13)
-    assertEquals(decodeFromOCIb25Str("K"), 14)
-    assertEquals(decodeFromOCIb25Str("L"), 15)
-    assertEquals(decodeFromOCIb25Str("N"), 16)
-    assertEquals(decodeFromOCIb25Str("Q"), 17)
-    assertEquals(decodeFromOCIb25Str("R"), 18)
-    assertEquals(decodeFromOCIb25Str("S"), 19)
-    assertEquals(decodeFromOCIb25Str("T"), 20)
-    assertEquals(decodeFromOCIb25Str("V"), 21)
-    assertEquals(decodeFromOCIb25Str("W"), 22)
-    assertEquals(decodeFromOCIb25Str("X"), 23)
-    assertEquals(decodeFromOCIb25Str("Y"), 24)
-    assertEquals(decodeFromOCIb25Str("21"), 25)
-    assertEquals(decodeFromOCIb25Str("22"), 26)
-    assertEquals(decodeFromOCIb25Str("23"), 27)
+    assertEquals(decodeFromOCIb25Str("1").toInt, 0)
+    assertEquals(decodeFromOCIb25Str("2").toInt, 1)
+    assertEquals(decodeFromOCIb25Str("3").toInt, 2)
+    assertEquals(decodeFromOCIb25Str("4").toInt, 3)
+    assertEquals(decodeFromOCIb25Str("5").toInt, 4)
+    assertEquals(decodeFromOCIb25Str("6").toInt, 5)
+    assertEquals(decodeFromOCIb25Str("7").toInt, 6)
+    assertEquals(decodeFromOCIb25Str("8").toInt, 7)
+    assertEquals(decodeFromOCIb25Str("9").toInt, 8)
+    assertEquals(decodeFromOCIb25Str("C").toInt, 9)
+    assertEquals(decodeFromOCIb25Str("F").toInt, 10)
+    assertEquals(decodeFromOCIb25Str("G").toInt, 11)
+    assertEquals(decodeFromOCIb25Str("H").toInt, 12)
+    assertEquals(decodeFromOCIb25Str("J").toInt, 13)
+    assertEquals(decodeFromOCIb25Str("K").toInt, 14)
+    assertEquals(decodeFromOCIb25Str("L").toInt, 15)
+    assertEquals(decodeFromOCIb25Str("N").toInt, 16)
+    assertEquals(decodeFromOCIb25Str("Q").toInt, 17)
+    assertEquals(decodeFromOCIb25Str("R").toInt, 18)
+    assertEquals(decodeFromOCIb25Str("S").toInt, 19)
+    assertEquals(decodeFromOCIb25Str("T").toInt, 20)
+    assertEquals(decodeFromOCIb25Str("V").toInt, 21)
+    assertEquals(decodeFromOCIb25Str("W").toInt, 22)
+    assertEquals(decodeFromOCIb25Str("X").toInt, 23)
+    assertEquals(decodeFromOCIb25Str("Y").toInt, 24)
+    assertEquals(decodeFromOCIb25Str("21").toInt, 25)
+    assertEquals(decodeFromOCIb25Str("22").toInt, 26)
+    assertEquals(decodeFromOCIb25Str("23").toInt, 27)
   }
 
   test("decode OCIb25 large") {
-    assertEquals(decodeFromOCIb25Str("5X"), 123)
-    assertEquals(decodeFromOCIb25Str("F6"), 255)
-    assertEquals(decodeFromOCIb25Str("2YC"), 1234)
-    assertEquals(decodeFromOCIb25Str("7JT"), 4095)
-    assertEquals(decodeFromOCIb25Str("SRT"), 12345)
-    assertEquals(decodeFromOCIb25Str("55VF"), 65535)
-    assertEquals(decodeFromOCIb25Str("8WJ7"), 123456)
-    assertEquals(decodeFromOCIb25Str("3Q3R1"), 1048575)
-    assertEquals(decodeFromOCIb25Str("4518Q"), 1234567)
-    assertEquals(decodeFromOCIb25Str("2QXRJL"), 16777215)
-    assertEquals(decodeFromOCIb25Str("27L434"), 12345678)
-    assertEquals(decodeFromOCIb25Str("23H5VR6"), 268435455)
-    assertEquals(decodeFromOCIb25Str("HN26VK"), 123456789)
+    assertEquals(decodeFromOCIb25Str("5X").toInt, 123)
+    assertEquals(decodeFromOCIb25Str("F6").toInt, 255)
+    assertEquals(decodeFromOCIb25Str("2YC").toInt, 1234)
+    assertEquals(decodeFromOCIb25Str("7JT").toInt, 4095)
+    assertEquals(decodeFromOCIb25Str("SRT").toInt, 12345)
+    assertEquals(decodeFromOCIb25Str("55VF").toInt, 65535)
+    assertEquals(decodeFromOCIb25Str("8WJ7").toInt, 123456)
+    assertEquals(decodeFromOCIb25Str("3Q3R1").toInt, 1048575)
+    assertEquals(decodeFromOCIb25Str("4518Q").toInt, 1234567)
+    assertEquals(decodeFromOCIb25Str("2QXRJL").toInt, 16777215)
+    assertEquals(decodeFromOCIb25Str("27L434").toInt, 12345678)
+    assertEquals(decodeFromOCIb25Str("23H5VR6").toInt, 268435455)
+    assertEquals(decodeFromOCIb25Str("HN26VK").toInt, 123456789)
+  }
+
+  test("transcode 128-bit OCIb25 string") {
+    val sha1Hex = DigestUtils.sha1Hex(Files.readAllBytes(Paths.get(getClass.getResource("OCIb25.alphabet").toURI))).toUpperCase()
+    val sha1Int = BigInt(sha1Hex, 16)
+
+    val encoded = encodeToOCIb25Str(sha1Int)
+    assertEquals(encoded.length, 34)
+    assertEquals(encoded, "TF13YQFT83YF2J19WQNRQ5VV9VHH2SFC3T")  // known good value!
+
+    val decoded = decodeFromOCIb25Str(encoded)
+    assertEquals(decoded, sha1Int)
+  }
+
+  test("transcode 256-bit OCIb25 string") {
+    val sha256Hex = DigestUtils.sha256Hex(Files.readAllBytes(Paths.get(getClass.getResource("HEX.alphabet").toURI))).toUpperCase()
+    val sha256Int = BigInt(sha256Hex, 16)
+
+    val encoded = encodeToOCIb25Str(sha256Int)
+    assertEquals(encoded.length, 55)
+    assertEquals(encoded, "Y3XH277CCCGHXYLHQTYQC557N56LGLC9CQXYXS7CG4CCSY97J44W8CR")  // known good value!
+
+    val decoded = decodeFromOCIb25Str(encoded)
+    assertEquals(decoded, sha256Int)
+  }
+
+  test("transcode 512-bit OCIb25 string") {
+    val sha512Hex = DigestUtils.sha512Hex(Files.readAllBytes(Paths.get(getClass.getResource("HEX.alphabet").toURI))).toUpperCase()
+    val sha512Int = BigInt(sha512Hex, 16)
+
+    val encoded = encodeToOCIb25Str(sha512Int)
+    assertEquals(encoded.length, 111)
+    assertEquals(encoded, "2QVR2V2GL538V8C62WLL4F1V2HXH4FJ3CJTHSXW54F3F7RQJV331996YL4GSV8Q7Y93WYH9C9JNTQYTJ1376V8L29KF5W9GNG9173T1H8JWG6YQ")  // known good value!
+
+    val decoded = decodeFromOCIb25Str(encoded)
+    assertEquals(decoded, sha512Int)
   }
 
   @throws[IOException]
-  private def encodeToOCIb25Str(value: Int) : String = {
+  private def encodeToOCIb25Str(value: BigInt) : String = {
     val encoded = BaseCoder.encode(value, 25)
     Alphabet.loadAlphabet(Right(IncludedAlphabet.OCIb25)) match {
       case Right(alphabet) =>
@@ -162,7 +200,7 @@ class OCIb25CoderSuite extends FunSuite {
   }
 
   @throws[IOException]
-  private def decodeFromOCIb25Str(str: String) : Int = {
+  private def decodeFromOCIb25Str(str: String) : BigInt = {
     Alphabet.loadAlphabet(Right(IncludedAlphabet.OCIb25)) match {
       case Right(alphabet) =>
         BaseCoder.decode(str, 25, Alphabet.valueOf(alphabet, _))

@@ -45,18 +45,18 @@ object BaseCoder {
    * @throws IllegalArgumentException if {@code value} is less than zero.
    */
   @throws[IllegalArgumentException]
-  def encode(value: Int, baseN: Int): Seq[Int] = {
+  def encode(value: BigInt, baseN: Int): Seq[Int] = {
 
     @tailrec
-    def encode(v: Int, accum: List[Int]): List[Int] = {
+    def encode(v: BigInt, accum: List[Int]): List[Int] = {
       if(v == 0 && accum.nonEmpty) {
         accum
       } else if(v <= 1) {
-        (v :: accum)
+        (v.toInt :: accum)
       } else {
         val div = v / baseN
         val mod = v % baseN
-        encode(div, mod :: accum)
+        encode(div, mod.toInt :: accum)
       }
     }
 
@@ -78,7 +78,7 @@ object BaseCoder {
    * @throws IllegalArgumentException if {@code value} is less than zero.
    */
   @throws[IllegalArgumentException]
-  def decode(str: String, baseN: Int, characterToNumericValue: Char => Int): Int = {
+  def decode(str: String, baseN: Int, characterToNumericValue: Char => Int): BigInt = {
     if (str.isEmpty) {
       throw new IllegalArgumentException("Cannot decode empty-string")
     }
@@ -91,9 +91,9 @@ object BaseCoder {
       numericValue
     }
 
-    val vs = for(i <- 0 until numericValues.length) yield {
+    val vs: Seq[BigInt] = for(i <- 0 until numericValues.length) yield {
       val exp = (numericValues.length - i) - 1
-      numericValues(i) * Math.pow(baseN, exp).toInt
+      numericValues(i) * BigInt(baseN).pow(exp)
     }
 
     vs.reduceLeft(_ + _)
