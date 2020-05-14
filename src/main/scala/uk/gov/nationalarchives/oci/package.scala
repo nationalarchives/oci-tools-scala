@@ -31,6 +31,6 @@ package object oci {
    */
   object IncludedAlphabet extends Enumeration {
     type IncludedAlphabet = Value
-    val OCIb25, GCRb25, HEX = Value
+    val OCIb78, OCIb68, OCIb25, GCRb25, HEX = Value
   }
 }

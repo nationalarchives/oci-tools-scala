@@ -40,6 +40,8 @@ Encoded: '8WJ7'
 Round-trip decoded: '123456'
 ```
 
+**EXPERIMENTAL:** There is also support for experimental URI encoding using a Base78 and Base68 alphabet, built-in as: `OCIb78` and `OCIb68`.
+
 ### Compiling the Command Line tool
 To build from source you will need the following pre-requisites:
 
