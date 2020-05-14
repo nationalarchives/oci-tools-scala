@@ -41,7 +41,7 @@ import scala.util.Try
  */
 object Main extends App {
 
-  case class Config(command: String, roundTrip: Boolean, base: Int, input: Either[String, Int], alphabet: Option[Either[String, IncludedAlphabet]])
+  case class Config(command: String, roundTrip: Boolean, base: Int, input: Either[String, BigInt], alphabet: Option[Either[String, IncludedAlphabet]])
 
   val parserBuilder = OParser.builder[Config]
   val parser = {
@@ -61,7 +61,7 @@ object Main extends App {
           arg[Int]("<base>")
             .text("The baseN to encode the number in")
             .action((value, c) => c.copy(base = value)),
-          arg[Int]("<number>")
+          arg[BigInt]("<number>")
             .text("The number to encode")
             .action((value, c) => c.copy(input = Right(value))),
           arg[String](name = "<alphabet>")
