@@ -8,7 +8,7 @@ environment:
   APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma -mx=9"
 
 install:
-  - SET PATH=%JAVA_HOME%\bin;%PATH%
+  - SET PATH=%JAVA_HOME%\bin;C:\Program Files (x86)\sbt\bin;%PATH%
   - ps: cinst sbt
 
 build_script:
