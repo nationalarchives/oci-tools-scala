@@ -1,6 +1,7 @@
 # Omega Catalog Identifier tools (Scala)
  
 [![Build Status](https://travis-ci.com/nationalarchives/oci-tools-scala.png?branch=master)](https://travis-ci.com/nationalarchives/oci-tools-scala)
+[![Build status](https://ci.appveyor.com/api/projects/status/s8ps0eyulq9mqo6k/branch/master?svg=true)](https://ci.appveyor.com/project/AdamRetter/oci-tools-scala/branch/master)
 [![Scala 2.13](https://img.shields.io/badge/scala-2.13-red.svg)](http://scala-lang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
  

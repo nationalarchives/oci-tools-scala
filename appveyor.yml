@@ -1,0 +1,25 @@
+version: '{build}'
+
+image: Visual Studio 2015
+
+environment:
+  JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma -mx=9"
+
+install:
+  - SET PATH=%JAVA_HOME%\bin;%PATH%
+  - ps: iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+  - ps: scoop bucket add versions
+  - ps: scoop install sbt0.13
+
+build_script:
+  - sbt compile
+
+test_script:
+  - sbt assembly
+
+cache:
+  - '%USERPROFILE%\.ivy2\cache'
+  - '%USERPROFILE%\.sbt'
+  - '%USERPROFILE%\scoop\cache'
