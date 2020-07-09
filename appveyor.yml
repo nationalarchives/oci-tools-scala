@@ -9,9 +9,7 @@ environment:
 
 install:
   - SET PATH=%JAVA_HOME%\bin;%PATH%
-  - ps: iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
-  - ps: scoop bucket add versions
-  - ps: scoop install sbt0.13
+  - ps: cinst sbt
 
 build_script:
   - sbt compile
@@ -22,4 +20,5 @@ test_script:
 cache:
   - '%USERPROFILE%\.ivy2\cache'
   - '%USERPROFILE%\.sbt'
-  - '%USERPROFILE%\scoop\cache'
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
