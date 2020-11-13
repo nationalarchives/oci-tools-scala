@@ -4,6 +4,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/s8ps0eyulq9mqo6k/branch/master?svg=true)](https://ci.appveyor.com/project/AdamRetter/oci-tools-scala/branch/master)
 [![Scala 2.13](https://img.shields.io/badge/scala-2.13-red.svg)](http://scala-lang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.gov.nationalarchives.oci/oci-tools-scala/badge.svg)](https://search.maven.org/search?q=g:uk.gov.nationalarchives.oci)
  
 **Note**: There is also an alternative implementation in TypeScript available at:
 https://github.com/nationalarchives/oci-tools-ts
