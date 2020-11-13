@@ -4,7 +4,7 @@ organization := "uk.gov.nationalarchives.oci"
 
 version := "0.0.1"
 
-scalaVersion := "2.13.2"
+scalaVersion := "2.13.3"
 
 licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT"))
 
@@ -12,8 +12,8 @@ headerLicense := Some(HeaderLicense.MIT("2020", "The National Archives"))
 
 libraryDependencies += "com.github.scopt" %% "scopt" % "4.0.0-RC2"
 libraryDependencies += "com.michaelpollmeier" %% "scala-arm" % "2.1"
-libraryDependencies += "org.scalameta" %% "munit" % "0.4.3" % "test"
-libraryDependencies += "commons-codec" % "commons-codec" % "1.14" % "test"
+libraryDependencies += "org.scalameta" %% "munit" % "0.7.17" % "test"
+libraryDependencies += "commons-codec" % "commons-codec" % "1.15" % "test"
 testFrameworks += new TestFramework("munit.Framework")
 
 // Fancy up the Assembly JAR
