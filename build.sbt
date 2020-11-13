@@ -2,11 +2,35 @@ name := "oci-tools-scala"
 
 organization := "uk.gov.nationalarchives.oci"
 
-version := "0.0.1"
+version := "0.2.0"
 
 scalaVersion := "2.13.3"
 
 licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT"))
+
+homepage := Some(url("https://github.com/nationalarchives/oci-tools-scala"))
+
+startYear := Some(2020)
+
+description := "Omega Catalogue Identifier tools"
+
+organizationName := "The National Archives"
+
+organizationHomepage := Some(url("http://nationalarchives.gov.uk"))
+
+scmInfo := Some(ScmInfo(
+    url("https://github.com/nationalarchives/oci-tools-scala"),
+    "scm:git@github.com:nationalarchives/oci-tools-scala.git")
+)
+
+developers := List(
+  Developer(
+    id    = "adamretter",
+    name  = "Adam Retter",
+    email = "adam@evolvedbinary.com",
+    url   = url("https://www.evolvedbinary.com")
+  )
+)
 
 headerLicense := Some(HeaderLicense.MIT("2020", "The National Archives"))
 
