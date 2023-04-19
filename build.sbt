@@ -2,9 +2,9 @@ name := "oci-tools-scala"
 
 organization := "uk.gov.nationalarchives.oci"
 
-version := "0.2.0"
+version := "0.3.0-SNAPSHOT"
 
-scalaVersion := "2.13.3"
+scalaVersion := "2.13.10"
 
 licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT"))
 
@@ -34,9 +34,9 @@ developers := List(
 
 headerLicense := Some(HeaderLicense.MIT("2020", "The National Archives"))
 
-libraryDependencies += "com.github.scopt" %% "scopt" % "4.0.0-RC2"
+libraryDependencies += "com.github.scopt" %% "scopt" % "4.1.0"
 libraryDependencies += "com.michaelpollmeier" %% "scala-arm" % "2.1"
-libraryDependencies += "org.scalameta" %% "munit" % "0.7.17" % "test"
+libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % "test"
 libraryDependencies += "commons-codec" % "commons-codec" % "1.15" % "test"
 testFrameworks += new TestFramework("munit.Framework")
 
