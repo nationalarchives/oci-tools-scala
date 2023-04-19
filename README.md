@@ -61,3 +61,9 @@ Given the standalone application, you can execute it by running either:
 
 2. or, even by just executing the `oci-tools-scala-assembly-0.0.1.jar` file directly, as we
 compile an executable header into the Jar file. e.g. (on Linux/Mac): `./exist-xqts-runner-assembly-1.0.0.jar`.
+
+
+## Publishing a Release to Maven Central
+1. Run `sbt clean release`
+2. Answer the questions
+3. Login to https://oss.sonatype.org/ then Close, and Release the Staging Repository

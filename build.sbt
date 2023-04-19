@@ -1,9 +1,13 @@
+import ReleaseTransformations._
+import sbtassembly.AssemblyPlugin.defaultUniversalScript
+
+
+ThisBuild / versionScheme := Some("semver-spec")
 
 lazy val root = Project("kettle-test-framework", file("."))
   .settings(
     name := "oci-tools-scala",
     organization := "uk.gov.nationalarchives.oci",
-    version := "0.3.0-SNAPSHOT",
     scalaVersion := "2.13.10",
     licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT")),
     homepage := Some(url("https://github.com/nationalarchives/oci-tools-scala")),
@@ -40,7 +44,9 @@ lazy val root = Project("kettle-test-framework", file("."))
       else
         Some("releases" at nexus + "service/local/staging/deploy/maven2/")
     },
-    Test / publishArtifact := false
+    Test / publishArtifact := false,
+    releaseVersionBump := sbtrelease.Version.Bump.Major,
+    releasePublishArtifactsAction := PgpKeys.publishSigned.value
   )
 
 // Fancy up the Assembly JAR
@@ -74,8 +80,6 @@ Compile / packageBin / packageOptions += {
 }
 
 // make the assembly executable with basic shell scripts
-import sbtassembly.AssemblyPlugin.defaultUniversalScript
-
 ThisBuild / assemblyPrependShellScript := Some(defaultUniversalScript(shebang = false))
 
 Compile / assembly / artifact := {
