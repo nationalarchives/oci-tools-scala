@@ -42,7 +42,7 @@ Encoded: '8WJ7'
 Round-trip decoded: '123456'
 ```
 
-Encoding to CTD b25 (e.g. as used by Project Omega):
+Encoding to CTD b25 (e.g. as used by Project TDR):
 ```bash
 ❯ target/scala-2.13/oci-tools-scala-assembly-0.4.0.jar encode --round-trip 25 123456 CTDb25
 Input: 123456
