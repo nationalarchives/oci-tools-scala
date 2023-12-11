@@ -20,7 +20,7 @@ which is useful in itself and also serves as an example of using the `BaseCoder.
 ## Examples of Command Line tool use
 Encoding to Base16 (e.g. hexadecimal):
 ```bash
-❯ target/scala-2.13/oci-tools-scala-assembly-0.3.0.jar encode --round-trip 16 123456 HEX
+❯ target/scala-2.13/oci-tools-scala-assembly-0.4.0.jar encode --round-trip 16 123456 HEX
 Input: 123456
 Encoded: '1E240'
 Round-trip decoded: '123456'
@@ -28,7 +28,7 @@ Round-trip decoded: '123456'
 
 Encoding to GCR b25 (e.g. as used by DRI for digital records):
 ```bash
-❯ target/scala-2.13/oci-tools-scala-assembly-0.3.0.jar encode --round-trip 25 123456 GCRb25
+❯ target/scala-2.13/oci-tools-scala-assembly-0.4.0.jar encode --round-trip 25 123456 GCRb25
 Input: 123456
 Encoded: 'K5RJ'
 Round-trip decoded: '123456'
@@ -36,9 +36,17 @@ Round-trip decoded: '123456'
 
 Encoding to OCI b25 (e.g. as used by Project Omega):
 ```bash
-❯ target/scala-2.13/oci-tools-scala-assembly-0.3.0.jar encode --round-trip 25 123456 OCIb25
+❯ target/scala-2.13/oci-tools-scala-assembly-0.4.0.jar encode --round-trip 25 123456 OCIb25
 Input: 123456
 Encoded: '8WJ7'
+Round-trip decoded: '123456'
+```
+
+Encoding to CTD b25 (e.g. as used by Project Omega):
+```bash
+❯ target/scala-2.13/oci-tools-scala-assembly-0.4.0.jar encode --round-trip 25 123456 CTDb25
+Input: 123456
+Encoded: '9TH8'
 Round-trip decoded: '123456'
 ```
 
@@ -52,15 +60,15 @@ To build from source you will need the following pre-requisites:
 3. SBT (Simple Build Tool) 1.1.2+
 
 If you wish to create a standalone application (also known as an Uber Jar, Assembly, etc.)
-you can run `sbt assembly`, which will generate `target/scala-2.13/oci-tools-scala-assembly-0.3.0.jar`.
+you can run `sbt assembly`, which will generate `target/scala-2.13/oci-tools-scala-assembly-0.4.0.jar`.
 
 ### Running the Command Line tool
 Given the standalone application, you can execute it by running either:
 
-1. `java -jar oci-tools-scala-assembly-0.3.0.jar`
+1. `java -jar oci-tools-scala-assembly-0.4.0.jar`
 
-2. or, even by just executing the `oci-tools-scala-assembly-0.3.0.jar` file directly, as we
-compile an executable header into the Jar file. e.g. (on Linux/Mac): `./oci-tools-scala-assembly-0.3.0.jar`.
+2. or, even by just executing the `oci-tools-scala-assembly-0.4.0.jar` file directly, as we
+compile an executable header into the Jar file. e.g. (on Linux/Mac): `./oci-tools-scala-assembly-0.4.0.jar`.
 
 
 ## Publishing a Release to Maven Central
